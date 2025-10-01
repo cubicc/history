@@ -1,0 +1,104 @@
+import React from 'react';
+import styled from 'styled-components';
+
+const Card = styled.div`
+  background-color: #1e293b;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
+const Title = styled.h3`
+  margin: 0;
+  font-size: 1.25rem;
+`;
+
+const Confidence = styled.div`
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: ${({ value }) => {
+    if (value > 80) return '#10b981';
+    if (value > 60) return '#f59e0b';
+    return '#ef4444';
+  }};
+`;
+
+const Description = styled.p`
+  margin: 0 0 1rem 0;
+  color: #94a3b8;
+`;
+
+const Factors = styled.div`
+  margin-bottom: 1rem;
+`;
+
+const Factor = styled.span`
+  background-color: #334155;
+  border-radius: 9999px;
+  display: inline-block;
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+`;
+
+const ProbabilityWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ProbabilityLabel = styled.span`
+  margin-right: 1rem;
+`;
+
+const ProgressBar = styled.div`
+  width: 100%;
+  height: 10px;
+  background-color: #334155;
+  border-radius: 5px;
+  overflow: hidden;
+`;
+
+const Progress = styled.div`
+  width: ${({ value }) => value}%;
+  height: 100%;
+  background-color: #2563eb;
+`;
+
+const FuturePredictionCard = ({ prediction }) => {
+  return (
+    <Card>
+      <Header>
+        <Title>预测场景 {prediction.id} <span style={{ color: '#94a3b8', fontSize: '1rem' }}>({prediction.duration})</span></Title>
+        <Confidence value={prediction.confidence}>{prediction.confidence}% 置信度</Confidence>
+      </Header>
+      <Description>{prediction.description}</Description>
+      {prediction.key_factors.length > 0 && (
+        <Factors>
+          {prediction.key_factors.map((factor, index) => (
+            <Factor key={index}>{factor}</Factor>
+          ))}
+        </Factors>
+      )}
+      <ProbabilityWrapper>
+        <ProbabilityLabel>发生概率</ProbabilityLabel>
+        <ProgressBar>
+          <Progress value={prediction.probability} />
+        </ProgressBar>
+      </ProbabilityWrapper>
+    </Card>
+  );
+};
+
+export default FuturePredictionCard;

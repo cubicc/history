@@ -1,0 +1,54 @@
+{
+  "historical_events": [
+    {
+      "year": 1929,
+      "title": "华尔街股灾",
+      "type": "金融危机",
+      "description": "美国股市大崩盘，引发全球经济大萧条",
+      "outcome": "全球经济衰退持续约10年",
+      "similarity": 87
+    },
+    {
+      "year": 2008,
+      "title": "次贷危机",
+      "type": "金融危机",
+      "description": "美国房地产泡沫破裂，金融系统崩溃",
+      "outcome": "全球金融危机，经济复苏耗时5年",
+      "similarity": 92
+    },
+    {
+      "year": 1997,
+      "title": "亚洲金融风暴",
+      "type": "货币危机",
+      "description": "泰铢贬值引发亚洲多国货币危机",
+      "outcome": "亚洲经济重组，约3年后复苏",
+      "similarity": 78
+    }
+  ],
+  "future_predictions": [
+    {
+      "id": 1,
+      "duration": "未来1个月内",
+      "description": "市场波动加剧，但不会出现系统性崩溃",
+      "key_factors": ["央行政策回应", "国际协调机制", "市场恐慌调节"],
+      "confidence": 85,
+      "probability": 65
+    },
+    {
+      "id": 2,
+      "duration": "1-2年内",
+      "description": "经济结构性调整，新兴产业崛起",
+      "key_factors": ["技术创新", "政策引导", "资本重新配置"],
+      "confidence": 72,
+      "probability": 58
+    },
+    {
+      "id": 3,
+      "duration": "短期内",
+      "description": "监管政策将显著收紧",
+      "key_factors": [],
+      "confidence": 90,
+      "probability": 0
+    }
+  ]
+}
