@@ -38,10 +38,29 @@ const ContentWrapper = styled.div`
 `;
 
 const Suggestion = styled.div`
-  color: #cbd5e1;
+  position: relative;
+  color: #e5edff;
   text-align: center;
-  margin: 1rem 0 1.25rem 0;
-  letter-spacing: 0.02em;
+  margin: 1.5rem auto 1.75rem auto;
+  max-width: 980px;
+  padding: 0.9rem 0;
+  font-size: 1.25rem;
+  line-height: 2.1;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 12px rgba(93,149,255,0.35), 0 0 24px rgba(37,99,235,0.18);
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: 6px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(59,130,246,0.65), transparent);
+    filter: blur(1px);
+    opacity: 0.7;
+    pointer-events: none;
+  }
 `;
 
 const AnalysisBox = styled.div`

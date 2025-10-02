@@ -5,7 +5,7 @@ const Card = styled.div`
   background-color: #1e293b;
   border: 1px solid #334155;
   border-radius: 0.5rem;
-  padding: 0.875rem 1rem;
+  padding: 0.65rem 0.85rem;
   margin-bottom: 0.5rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: inset 0 0 0 1px rgba(51,65,85,0.25);
@@ -20,16 +20,16 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.7rem;
 `;
 
 const Title = styled.h3`
   margin: 0;
-  font-size: 1.0625rem;
+  font-size: 0.98rem;
 `;
 
 const Confidence = styled.div`
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: bold;
   color: ${({ value }) => {
     if (value > 80) return '#10b981';
@@ -39,35 +39,39 @@ const Confidence = styled.div`
 `;
 
 const Description = styled.p`
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.4rem 0;
   color: #94a3b8;
 `;
 
 const Factors = styled.div`
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 `;
 
 const Factor = styled.span`
   background-color: #334155;
   border-radius: 9999px;
   display: inline-block;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   margin-right: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.8rem;
 `;
 
 const ProbabilityWrapper = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
 const ProbabilityLabel = styled.span`
-  margin-right: 0.75rem;
+  margin-right: 0.5rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  white-space: nowrap;
 `;
 
 const ProgressBar = styled.div`
-  width: 100%;
-  height: 6px;
+  width: 60%;
+  height: 5px;
   background-color: #334155;
   border-radius: 5px;
   overflow: hidden;

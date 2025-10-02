@@ -10,21 +10,28 @@ const InputWrapper = styled.div`
   gap: 1.5rem;
 `;
 
-const Input = styled.input`
+const Input = styled.textarea`
   background-color: #1e293b;
   border: 1px solid #334155;
   border-radius: 0.75rem;
   color: #e2e8f0;
-  font-size: 1.125rem;
-  padding: 1rem 1.25rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  padding: 1.25rem 1.5rem;
   width: 100%;
   max-width: 880px;
   height: 192px;
+  line-height: 1.8;
   box-shadow: inset 0 0 0 1px rgba(51,65,85,0.3);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  caret-color: #60a5fa;
+  text-shadow: 0 0 6px rgba(59,130,246,0.25);
+  resize: none;
+  overflow: auto;
 
   &::placeholder {
-    color: #64748b;
+    color: #7a8aa1;
+    opacity: 0.9;
   }
 
   &:focus {
@@ -124,7 +131,7 @@ const InputSection = ({ onSearch }) => {
       <Input 
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        onKeyPress={handleKeyPress}
+        onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSearch())}
         placeholder="央行意外宣布大幅加息政策" 
       />
       <Tags>

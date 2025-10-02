@@ -37,6 +37,30 @@ const AiEngineButton = styled.button`
   padding: 0.5rem 1rem;
 `;
 
+const IconButton = styled.button`
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  border: 1px solid #334155;
+  background: radial-gradient(120% 120% at 50% 0%, rgba(37,99,235,0.25), rgba(30,41,59,0.6) 55%, rgba(15,23,42,0.9));
+  color: #93c5fd;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.25) inset, 0 0 16px rgba(37,99,235,0.18);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px rgba(59,130,246,0.35) inset, 0 0 22px rgba(59,130,246,0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
 // 加载动画
 const spin = keyframes`
   0% { transform: rotate(0deg); }
@@ -137,7 +161,6 @@ function App() {
               <Title>Mirror of History</Title>
               <Subtitle>以史为鉴・预见未来</Subtitle>
             </div>
-            <AiEngineButton>AI 分析引擎</AiEngineButton>
           </Header>
           <InputSection onSearch={fetchData} />
         </AppWrapper>
@@ -153,7 +176,12 @@ function App() {
             <Title>Mirror of History</Title>
             <Subtitle>以史为鉴・预见未来</Subtitle>
           </div>
-          <AiEngineButton onClick={handleBackToInput}>返回搜索</AiEngineButton>
+          <IconButton onClick={handleBackToInput} aria-label="返回">
+            {/* 左箭头样式的图形 */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 5L8 12L15 19" stroke="#93c5fd" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </IconButton>
         </Header>
         {data && <TabContainer data={data} searchQuery={searchQuery} />}
       </AppWrapper>
