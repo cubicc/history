@@ -19,7 +19,7 @@ const Input = styled.input`
   padding: 1rem 1.25rem;
   width: 100%;
   max-width: 880px;
-  height: 64px;
+  height: 192px;
   box-shadow: inset 0 0 0 1px rgba(51,65,85,0.3);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 

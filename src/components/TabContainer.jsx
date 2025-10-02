@@ -37,41 +37,72 @@ const ContentWrapper = styled.div`
   padding: 0 2rem;
 `;
 
+const Suggestion = styled.div`
+  color: #cbd5e1;
+  text-align: center;
+  margin: 1rem 0 1.25rem 0;
+  letter-spacing: 0.02em;
+`;
+
+const AnalysisBox = styled.div`
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 0.75rem;
+  color: #e2e8f0;
+  font-size: 1.0625rem;
+  line-height: 1.9;
+  padding: 1rem 1.25rem;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto 2rem auto;
+  box-shadow: inset 0 0 0 1px rgba(51,65,85,0.3);
+`;
+
 const TabContainer = ({ data, searchQuery }) => {
   const [activeTab, setActiveTab] = useState('future'); // 默认显示未来预测
 
   return (
     <div>
-      <TabWrapper>
-        <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
-          未来预测
-        </Tab>
-        <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
-          历史分析
-        </Tab>
-      </TabWrapper>
       <ContentWrapper>
         {activeTab === 'future' && (
           <div>
-            <h2>AI 预测分析</h2>
-            {searchQuery && (
-              <p style={{ color: '#94a3b8', marginBottom: '2rem', textAlign: 'center' }}>
-                搜索关键词: "{searchQuery}"
-              </p>
+            {data.suggestion && (
+              <Suggestion>{data.suggestion}</Suggestion>
             )}
-            {data.future_predictions.map((prediction, index) => (
-              <FuturePredictionCard key={index} prediction={prediction} />
-            ))}
+            {data.overall_analysis && (
+              <AnalysisBox>{data.overall_analysis}</AnalysisBox>
+            )}
+            <TabWrapper>
+              <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
+                未来预测
+              </Tab>
+              <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
+                历史分析
+              </Tab>
+            </TabWrapper>
+            <div style={{display:'grid',gap:'1rem'}}>
+              {data.future_predictions.map((prediction, index) => (
+                <FuturePredictionCard key={index} prediction={prediction} />
+              ))}
+            </div>
           </div>
         )}
         {activeTab === 'history' && (
           <div>
-            <h2>相似历史事件</h2>
-            {searchQuery && (
-              <p style={{ color: '#94a3b8', marginBottom: '2rem', textAlign: 'center' }}>
-                搜索关键词: "{searchQuery}"
-              </p>
+            {data.suggestion && (
+              <Suggestion>{data.suggestion}</Suggestion>
             )}
+            {data.overall_analysis && (
+              <AnalysisBox>{data.overall_analysis}</AnalysisBox>
+            )}
+            <TabWrapper>
+              <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
+                未来预测
+              </Tab>
+              <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
+                历史分析
+              </Tab>
+            </TabWrapper>
             {data.historical_events.map((event, index) => (
               <HistoricalEventCard key={index} event={event} />
             ))}
