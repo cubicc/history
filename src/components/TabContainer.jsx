@@ -37,36 +37,43 @@ const ContentWrapper = styled.div`
   padding: 0 2rem;
 `;
 
-const TabContainer = ({ data }) => {
-  const [activeTab, setActiveTab] = useState('history');
+const TabContainer = ({ data, searchQuery }) => {
+  const [activeTab, setActiveTab] = useState('future'); // 默认显示未来预测
 
   return (
     <div>
       <TabWrapper>
-        <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
-          历史分析
-        </Tab>
-        <Tab active={activeTab === 'timeline'} onClick={() => setActiveTab('timeline')}>
-          时间线
-        </Tab>
         <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
           未来预测
         </Tab>
+        <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
+          历史分析
+        </Tab>
       </TabWrapper>
       <ContentWrapper>
-        {activeTab === 'history' && (
-          <div>
-            <h2>相似历史事件</h2>
-            {data.historical_events.map((event, index) => (
-              <HistoricalEventCard key={index} event={event} />
-            ))}
-          </div>
-        )}
         {activeTab === 'future' && (
           <div>
             <h2>AI 预测分析</h2>
+            {searchQuery && (
+              <p style={{ color: '#94a3b8', marginBottom: '2rem', textAlign: 'center' }}>
+                搜索关键词: "{searchQuery}"
+              </p>
+            )}
             {data.future_predictions.map((prediction, index) => (
               <FuturePredictionCard key={index} prediction={prediction} />
+            ))}
+          </div>
+        )}
+        {activeTab === 'history' && (
+          <div>
+            <h2>相似历史事件</h2>
+            {searchQuery && (
+              <p style={{ color: '#94a3b8', marginBottom: '2rem', textAlign: 'center' }}>
+                搜索关键词: "{searchQuery}"
+              </p>
+            )}
+            {data.historical_events.map((event, index) => (
+              <HistoricalEventCard key={index} event={event} />
             ))}
           </div>
         )}
