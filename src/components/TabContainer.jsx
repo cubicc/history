@@ -4,6 +4,7 @@ import HistoricalEventCard from './HistoricalEventCard';
 import FuturePredictionCard from './FuturePredictionCard';
 import CompactPredictionCard from './CompactPredictionCard';
 import CyberpunkTimeline from './CyberpunkTimeline';
+import HistoricalTimeline from './HistoricalTimeline';
 
 const TabWrapper = styled.div`
   display: flex;
@@ -100,6 +101,11 @@ const TabContainer = ({ data, searchQuery }) => {
     });
   };
 
+  // 按年份排序历史事件
+  const sortEventsByYear = (events) => {
+    return [...events].sort((a, b) => b.year - a.year); // 从新到旧排序
+  };
+
   return (
     <div>
       <ContentWrapper>
@@ -138,9 +144,7 @@ const TabContainer = ({ data, searchQuery }) => {
                 历史分析
               </Tab>
             </TabWrapper>
-            {data.historical_events.map((event, index) => (
-              <HistoricalEventCard key={index} event={event} />
-            ))}
+            <HistoricalTimeline events={sortEventsByYear(data.historical_events)} />
           </div>
         )}
       </ContentWrapper>
