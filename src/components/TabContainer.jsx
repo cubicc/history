@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import HistoricalEventCard from './HistoricalEventCard';
 import FuturePredictionCard from './FuturePredictionCard';
+import CompactPredictionCard from './CompactPredictionCard';
+import CyberpunkTimeline from './CyberpunkTimeline';
 
 const TabWrapper = styled.div`
   display: flex;
@@ -77,8 +79,26 @@ const AnalysisBox = styled.div`
   box-shadow: inset 0 0 0 1px rgba(51,65,85,0.3);
 `;
 
+
 const TabContainer = ({ data, searchQuery }) => {
   const [activeTab, setActiveTab] = useState('future'); // 默认显示未来预测
+
+  // 按时间顺序排序预测场景
+  const sortPredictionsByTime = (predictions) => {
+    const timeOrder = {
+      '短期内': 1,
+      '未来1个月内': 2,
+      '1-2年内': 3,
+      '中期内': 4,
+      '长期内': 5
+    };
+    
+    return [...predictions].sort((a, b) => {
+      const timeA = timeOrder[a.duration] || 999;
+      const timeB = timeOrder[b.duration] || 999;
+      return timeA - timeB;
+    });
+  };
 
   return (
     <div>
@@ -99,11 +119,7 @@ const TabContainer = ({ data, searchQuery }) => {
                 历史分析
               </Tab>
             </TabWrapper>
-            <div style={{display:'grid',gap:'1rem'}}>
-              {data.future_predictions.map((prediction, index) => (
-                <FuturePredictionCard key={index} prediction={prediction} />
-              ))}
-            </div>
+            <CyberpunkTimeline predictions={sortPredictionsByTime(data.future_predictions)} />
           </div>
         )}
         {activeTab === 'history' && (
