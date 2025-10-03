@@ -82,7 +82,7 @@ const AnalysisBox = styled.div`
 
 
 const TabContainer = ({ data, searchQuery }) => {
-  const [activeTab, setActiveTab] = useState('future'); // 默认显示未来预测
+  const [activeTab, setActiveTab] = useState('history'); // 默认显示未来预测
 
   // 按时间顺序排序预测场景
   const sortPredictionsByTime = (predictions) => {
@@ -118,11 +118,11 @@ const TabContainer = ({ data, searchQuery }) => {
               <AnalysisBox>{data.overall_analysis}</AnalysisBox>
             )}
             <TabWrapper>
-              <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
-                未来预测
-              </Tab>
               <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
                 历史分析
+              </Tab>
+              <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
+                未来预测
               </Tab>
             </TabWrapper>
             <CyberpunkTimeline predictions={sortPredictionsByTime(data.future_predictions)} />
@@ -137,11 +137,11 @@ const TabContainer = ({ data, searchQuery }) => {
               <AnalysisBox>{data.overall_analysis}</AnalysisBox>
             )}
             <TabWrapper>
-              <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
-                未来预测
-              </Tab>
               <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
                 历史分析
+              </Tab>
+              <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
+                未来预测
               </Tab>
             </TabWrapper>
             <HistoricalTimeline events={sortEventsByYear(data.historical_events)} />
