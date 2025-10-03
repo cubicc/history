@@ -161,10 +161,6 @@ const EventOutcome = styled.p`
   font-size: 0.75rem;
   line-height: 1.3;
   font-weight: 500;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   text-shadow: 0 0 4px rgba(96, 165, 250, 0.3);
 `;
@@ -186,7 +182,7 @@ const EventDetails = styled.div`
   }
 `;
 
-const Similarity = styled.div`
+const RelevanceScore = styled.div`
   font-size: 0.75rem;
   font-weight: bold;
   color: ${({ value }) => {
@@ -216,9 +212,9 @@ const HistoricalTimeline = ({ events }) => {
               <EventDescription>{event.description}</EventDescription>
               <EventOutcome>结果: {event.outcome}</EventOutcome>
               <EventDetails>{event.details}</EventDetails>
-              <Similarity value={event.similarity}>
-                相似度: {event.similarity}%
-              </Similarity>
+              <RelevanceScore value={event.relevance_score}>
+                相关度: {event.relevance_score}%
+              </RelevanceScore>
             </EventCard>
           </TimelineNode>
         ))}

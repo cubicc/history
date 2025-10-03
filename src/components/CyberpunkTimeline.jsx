@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 // 柔和的发光动画
@@ -44,7 +44,7 @@ const TimelineContainer = styled.div`
 const TimelineWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;
   position: relative;
   z-index: 2;
   gap: 1rem;
@@ -69,7 +69,6 @@ const PredictionCard = styled.div`
   position: relative;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-  height: 200px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -127,11 +126,6 @@ const Description = styled.p`
   color: #94a3b8;
   font-size: 0.8rem;
   line-height: 1.3;
-  height: 2.6rem; /* 固定高度，确保两行文本 */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 `;
 
 const Factors = styled.div`
@@ -139,8 +133,6 @@ const Factors = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
-  height: 2rem; /* 固定高度 */
-  overflow: hidden;
 `;
 
 const Factor = styled.span`
@@ -153,6 +145,17 @@ const Factor = styled.span`
   line-height: 0.8rem;
   display: flex;
   align-items: center;
+  border: none;
+  font-family: inherit;
+  transition: background-color 0.2s ease;
+
+  ${({ onClick }) => onClick && `
+    cursor: pointer;
+    &:hover {
+      background: #475569;
+      color: #e2e8f0;
+    }
+  `}
 `;
 
 const ProbabilityWrapper = styled.div`
@@ -193,38 +196,54 @@ const ProbabilityValue = styled.span`
 `;
 
 const CyberpunkTimeline = ({ predictions }) => {
+  const [expandedFactors, setExpandedFactors] = useState({});
+
+  const toggleExpandFactors = (index) => {
+    setExpandedFactors(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
+
   return (
     <TimelineContainer>
       <TimelineWrapper>
-        {predictions.map((prediction, index) => (
-          <TimelineNode key={index}>
-            <PredictionCard>
-              <CardHeader>
-                <ScenarioTitle>场景 {prediction.id}</ScenarioTitle>
-                <Confidence value={prediction.confidence}>{prediction.confidence}%</Confidence>
-              </CardHeader>
-              <Duration>{prediction.duration}</Duration>
-              <Description>{prediction.description}</Description>
-              {prediction.key_factors.length > 0 && (
-                <Factors>
-                  {prediction.key_factors.slice(0, 2).map((factor, index) => (
-                    <Factor key={index}>{factor}</Factor>
-                  ))}
-                  {prediction.key_factors.length > 2 && (
-                    <Factor>+{prediction.key_factors.length - 2}</Factor>
-                  )}
-                </Factors>
-              )}
-              <ProbabilityWrapper>
-                <ProbabilityLabel>概率</ProbabilityLabel>
-                <ProgressBar>
-                  <Progress value={prediction.probability} />
-                </ProgressBar>
-                <ProbabilityValue>{prediction.probability}%</ProbabilityValue>
-              </ProbabilityWrapper>
-            </PredictionCard>
-          </TimelineNode>
-        ))}
+        {predictions.map((prediction, index) => {
+          const isExpanded = expandedFactors[index];
+          const factorsToShow = isExpanded ? prediction.key_factors : prediction.key_factors.slice(0, 2);
+
+          return (
+            <TimelineNode key={index}>
+              <PredictionCard>
+                <CardHeader>
+                  <ScenarioTitle>场景 {prediction.id}</ScenarioTitle>
+                  <Confidence value={prediction.confidence}>{prediction.confidence}%</Confidence>
+                </CardHeader>
+                <Duration>{prediction.duration}</Duration>
+                <Description>{prediction.description}</Description>
+                {prediction.key_factors.length > 0 && (
+                  <Factors>
+                    {factorsToShow.map((factor, factorIndex) => (
+                      <Factor key={factorIndex}>{factor}</Factor>
+                    ))}
+                    {prediction.key_factors.length > 2 && !isExpanded && (
+                      <Factor onClick={() => toggleExpandFactors(index)}>
+                        +{prediction.key_factors.length - 2}
+                      </Factor>
+                    )}
+                  </Factors>
+                )}
+                <ProbabilityWrapper>
+                  <ProbabilityLabel>概率</ProbabilityLabel>
+                  <ProgressBar>
+                    <Progress value={prediction.probability} />
+                  </ProgressBar>
+                  <ProbabilityValue>{prediction.probability}%</ProbabilityValue>
+                </ProbabilityWrapper>
+              </PredictionCard>
+            </TimelineNode>
+          );
+        })}
       </TimelineWrapper>
     </TimelineContainer>
   );

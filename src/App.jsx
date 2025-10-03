@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
 import InputSection from './components/InputSection';
 import TabContainer from './components/TabContainer';
+import mockData from './data/workflow_output_20251001_234728.json';
 
 const AppWrapper = styled.div`
   max-width: 1200px;
@@ -114,18 +115,43 @@ const PageContainer = styled.div`
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 `;
 
+const MockDataSwitch = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 0.5rem;
+  color: #e2e8f0;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  z-index: 1001;
+
+  label {
+    margin-right: 0.5rem;
+  }
+`;
+
 function App() {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState('input'); // 'input' or 'analysis'
   const [searchQuery, setSearchQuery] = useState('');
+  const [useMockData, setUseMockData] = useState(true); // true: use mock data, false: use real backend
 
   const fetchData = async (query) => {
     setIsLoading(true);
     setSearchQuery(query);
     try {
-      const response = await axios.post("http://127.0.0.1:8001/analyse", { query });
-      setData(response.data);
+      if (useMockData) {
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setData(mockData);
+      } else {
+        const response = await axios.post("http://127.0.0.1:8001/analyse", { query });
+        setData(response.data);
+      }
     } catch (error) {
       console.error("Error fetching data: ", error);
       // 这里可以添加一些错误处理逻辑，比如显示一个错误信息
@@ -162,6 +188,15 @@ function App() {
             </div>
           </Header>
           <InputSection onSearch={fetchData} />
+          <MockDataSwitch>
+            <label htmlFor="mock-data-switch">使用模拟数据</label>
+            <input
+              type="checkbox"
+              id="mock-data-switch"
+              checked={useMockData}
+              onChange={() => setUseMockData(!useMockData)}
+            />
+          </MockDataSwitch>
         </AppWrapper>
       </PageContainer>
     );
@@ -183,6 +218,15 @@ function App() {
           </IconButton>
         </Header>
         {data && <TabContainer data={data} searchQuery={searchQuery} />}
+        <MockDataSwitch>
+          <label htmlFor="mock-data-switch">使用模拟数据</label>
+          <input
+            type="checkbox"
+            id="mock-data-switch"
+            checked={useMockData}
+            onChange={() => setUseMockData(!useMockData)}
+          />
+        </MockDataSwitch>
       </AppWrapper>
     </PageContainer>
   );
