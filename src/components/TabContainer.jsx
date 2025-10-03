@@ -84,23 +84,6 @@ const AnalysisBox = styled.div`
 const TabContainer = ({ data, searchQuery }) => {
   const [activeTab, setActiveTab] = useState('history'); // 默认显示未来预测
 
-  // 按时间顺序排序预测场景
-  const sortPredictionsByTime = (predictions) => {
-    const timeOrder = {
-      '短期内': 1,
-      '未来1个月内': 2,
-      '1-2年内': 3,
-      '中期内': 4,
-      '长期内': 5
-    };
-    
-    return [...predictions].sort((a, b) => {
-      const timeA = timeOrder[a.duration] || 999;
-      const timeB = timeOrder[b.duration] || 999;
-      return timeA - timeB;
-    });
-  };
-
   // 按年份排序历史事件
   const sortEventsByYear = (events) => {
     return [...events].sort((a, b) => b.year - a.year); // 从新到旧排序
@@ -125,7 +108,7 @@ const TabContainer = ({ data, searchQuery }) => {
                 未来预测
               </Tab>
             </TabWrapper>
-            <CyberpunkTimeline predictions={sortPredictionsByTime(data.future_predictions)} />
+            <CyberpunkTimeline predictions={data.future_predictions} />
           </div>
         )}
         {activeTab === 'history' && (

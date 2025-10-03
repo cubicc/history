@@ -3,7 +3,6 @@ import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
 import InputSection from './components/InputSection';
 import TabContainer from './components/TabContainer';
-import initialData from './data/workflow_output_20251001_234728.json';
 
 const AppWrapper = styled.div`
   max-width: 1200px;
@@ -124,16 +123,16 @@ function App() {
   const fetchData = async (query) => {
     setIsLoading(true);
     setSearchQuery(query);
-    
-    // 模拟API调用延迟
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // In a real application, you would fetch from an API
-    // const response = await axios.get('/api/predict', { params: { query } });
-    // setData(response.data);
-    setData(initialData);
-    setIsLoading(false);
-    setCurrentPage('analysis');
+    try {
+      const response = await axios.post("http://127.0.0.1:8001/analyse", { query });
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      // 这里可以添加一些错误处理逻辑，比如显示一个错误信息
+    } finally {
+      setIsLoading(false);
+      setCurrentPage('analysis');
+    }
   };
 
   const handleBackToInput = () => {
