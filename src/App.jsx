@@ -3,7 +3,14 @@ import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
 import InputSection from './components/InputSection';
 import TabContainer from './components/TabContainer';
-import mockData from './data/workflow_output_20251001_234728.json';
+import japanImmigrationData from './data/japan_immigration_country.json';
+import chinaAgingData from './data/china_aging.json';
+import trampData from './data/tramp.json';
+import climateData from './data/climate.json';
+import jobData from './data/job.json';
+import warData from './data/war.json';
+import covid19Data from './data/COVID19.json';
+import aiData from './data/ai.json';
 
 const AppWrapper = styled.div`
   max-width: 1200px;
@@ -138,17 +145,51 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState('input'); // 'input' or 'analysis'
   const [searchQuery, setSearchQuery] = useState('');
-  const [useMockData, setUseMockData] = useState(true); // true: use mock data, false: use real backend
+  const [useMockData, setUseMockData] = useState(false); // true: use mock data, false: use real backend
 
   const fetchData = async (query) => {
     setIsLoading(true);
     setSearchQuery(query);
     try {
-      if (useMockData) {
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      // 检查是否是特定的tag查询
+      if (query === '日本是否会变成移民国家') {
+        // 模拟5秒延时
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        setData(japanImmigrationData);
+      } else if (query === '中国老龄化社会会变成什么样') {
+        // 模拟5秒延时
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        setData(chinaAgingData);
+      } else if (query === '特朗普贸易逆行，加收关税，未来走向是什么') {
+        // 模拟5秒延时
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        setData(trampData);
+      } else if (query === '全球气候恶化，山火频发，会持续下去吗') {
+        // 模拟5秒延时
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        setData(climateData);
+      } else if (query === '一直找不到工作怎么办') {
+        // 模拟5秒延时
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        setData(jobData);
+      } else if (query === '俄乌战争会变成什么样') {
+        // 模拟5秒延时
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        setData(warData);
+      } else if (query === '还会出现下一次新冠疫情吗') {
+        // 模拟5秒延时
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        setData(covid19Data);
+      } else if (query === 'AI时代会导致更多的失业还是就业') {
+        // 模拟5秒延时
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        setData(aiData);
+      } else if (useMockData) {
+        // 其他查询使用默认的模拟数据，模拟5秒延时
+        await new Promise(resolve => setTimeout(resolve, 5000));
         setData(mockData);
       } else {
+        // 使用真实的后端API
         const response = await axios.post("http://127.0.0.1:8001/analyse", { query });
         setData(response.data);
       }
@@ -188,15 +229,6 @@ function App() {
             </div>
           </Header>
           <InputSection onSearch={fetchData} />
-          <MockDataSwitch>
-            <label htmlFor="mock-data-switch">使用模拟数据</label>
-            <input
-              type="checkbox"
-              id="mock-data-switch"
-              checked={useMockData}
-              onChange={() => setUseMockData(!useMockData)}
-            />
-          </MockDataSwitch>
         </AppWrapper>
       </PageContainer>
     );
@@ -218,15 +250,6 @@ function App() {
           </IconButton>
         </Header>
         {data && <TabContainer data={data} searchQuery={searchQuery} />}
-        <MockDataSwitch>
-          <label htmlFor="mock-data-switch">使用模拟数据</label>
-          <input
-            type="checkbox"
-            id="mock-data-switch"
-            checked={useMockData}
-            onChange={() => setUseMockData(!useMockData)}
-          />
-        </MockDataSwitch>
       </AppWrapper>
     </PageContainer>
   );

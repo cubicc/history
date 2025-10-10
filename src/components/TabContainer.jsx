@@ -102,13 +102,13 @@ const TabContainer = ({ data, searchQuery }) => {
             )}
             <TabWrapper>
               <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
-                历史分析
+                历史回溯
               </Tab>
               <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
-                未来预测
+                未来推断
               </Tab>
             </TabWrapper>
-            <CyberpunkTimeline predictions={data.future_predictions} />
+            <CyberpunkTimeline predictions={data.future_predictions} practicalAdvice={data.practical_advice} />
           </div>
         )}
         {activeTab === 'history' && (
@@ -121,10 +121,10 @@ const TabContainer = ({ data, searchQuery }) => {
             )}
             <TabWrapper>
               <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
-                历史分析
+                历史回溯
               </Tab>
               <Tab active={activeTab === 'future'} onClick={() => setActiveTab('future')}>
-                未来预测
+                未来推断
               </Tab>
             </TabWrapper>
             <HistoricalTimeline events={sortEventsByYear(data.historical_events)} />

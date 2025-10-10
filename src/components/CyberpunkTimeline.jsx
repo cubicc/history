@@ -61,7 +61,7 @@ const TimelineNode = styled.div`
 `;
 
 const PredictionCard = styled.div`
-  background: #1e293b;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   border: 1px solid #334155;
   border-radius: 8px;
   padding: 1rem;
@@ -195,7 +195,43 @@ const ProbabilityValue = styled.span`
   text-align: right;
 `;
 
-const CyberpunkTimeline = ({ predictions }) => {
+const PracticalAdviceBox = styled.div`
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 5rem;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const AdviceTitle = styled.h3`
+  margin: 0 0 0.8rem 0;
+  font-size: 1.2rem;
+  color: #e2e8f0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const AdviceIcon = styled.span`
+  color: #3b82f6;
+  font-size: 1.2rem;
+`;
+
+const AdviceContent = styled.div`
+  color: #94a3b8;
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: pre-line;
+`;
+
+const CyberpunkTimeline = ({ predictions, practicalAdvice }) => {
   const [expandedFactors, setExpandedFactors] = useState({});
 
   const toggleExpandFactors = (index) => {
@@ -206,46 +242,57 @@ const CyberpunkTimeline = ({ predictions }) => {
   };
 
   return (
-    <TimelineContainer>
-      <TimelineWrapper>
-        {predictions.map((prediction, index) => {
-          const isExpanded = expandedFactors[index];
-          const factorsToShow = isExpanded ? prediction.key_factors : prediction.key_factors.slice(0, 2);
+    <>
+      <TimelineContainer>
+        <TimelineWrapper>
+          {predictions.map((prediction, index) => {
+            const isExpanded = expandedFactors[index];
+            const factorsToShow = isExpanded ? prediction.key_factors : prediction.key_factors.slice(0, 2);
 
-          return (
-            <TimelineNode key={index}>
-              <PredictionCard>
-                <CardHeader>
-                  <ScenarioTitle>场景 {prediction.id}</ScenarioTitle>
-                  <Confidence value={prediction.confidence}>{prediction.confidence}%</Confidence>
-                </CardHeader>
-                <Duration>{prediction.duration}</Duration>
-                <Description>{prediction.description}</Description>
-                {prediction.key_factors.length > 0 && (
-                  <Factors>
-                    {factorsToShow.map((factor, factorIndex) => (
-                      <Factor key={factorIndex}>{factor}</Factor>
-                    ))}
-                    {prediction.key_factors.length > 2 && !isExpanded && (
-                      <Factor onClick={() => toggleExpandFactors(index)}>
-                        +{prediction.key_factors.length - 2}
-                      </Factor>
-                    )}
-                  </Factors>
-                )}
-                <ProbabilityWrapper>
-                  <ProbabilityLabel>概率</ProbabilityLabel>
-                  <ProgressBar>
-                    <Progress value={prediction.probability} />
-                  </ProgressBar>
-                  <ProbabilityValue>{prediction.probability}%</ProbabilityValue>
-                </ProbabilityWrapper>
-              </PredictionCard>
-            </TimelineNode>
-          );
-        })}
-      </TimelineWrapper>
-    </TimelineContainer>
+            return (
+              <TimelineNode key={index}>
+                <PredictionCard>
+                  <CardHeader>
+                    <ScenarioTitle>场景 {prediction.id}</ScenarioTitle>
+                    <Confidence value={prediction.confidence}>{prediction.confidence}%</Confidence>
+                  </CardHeader>
+                  <Duration>{prediction.duration}</Duration>
+                  <Description>{prediction.description}</Description>
+                  {prediction.key_factors.length > 0 && (
+                    <Factors>
+                      {factorsToShow.map((factor, factorIndex) => (
+                        <Factor key={factorIndex}>{factor}</Factor>
+                      ))}
+                      {prediction.key_factors.length > 2 && !isExpanded && (
+                        <Factor onClick={() => toggleExpandFactors(index)}>
+                          +{prediction.key_factors.length - 2}
+                        </Factor>
+                      )}
+                    </Factors>
+                  )}
+                  <ProbabilityWrapper>
+                    <ProbabilityLabel>概率</ProbabilityLabel>
+                    <ProgressBar>
+                      <Progress value={prediction.probability} />
+                    </ProgressBar>
+                    <ProbabilityValue>{prediction.probability}%</ProbabilityValue>
+                  </ProbabilityWrapper>
+                </PredictionCard>
+              </TimelineNode>
+            );
+          })}
+        </TimelineWrapper>
+      </TimelineContainer>
+      {practicalAdvice && (
+        <PracticalAdviceBox>
+          <AdviceTitle>
+            <AdviceIcon>💡</AdviceIcon>
+            生活建议
+          </AdviceTitle>
+          <AdviceContent>{practicalAdvice}</AdviceContent>
+        </PracticalAdviceBox>
+      )}
+    </>
   );
 };
 
