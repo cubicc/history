@@ -108,7 +108,7 @@ const TabContainer = ({ data, searchQuery }) => {
                 未来推断
               </Tab>
             </TabWrapper>
-            <CyberpunkTimeline predictions={data.future_predictions} practicalAdvice={data.practical_advice} />
+            <CyberpunkTimeline predictions={data.future_predictions} practicalAdvice={data.practical_advice} patterns={data.patterns} />
           </div>
         )}
         {activeTab === 'history' && (

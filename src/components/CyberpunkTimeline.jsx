@@ -195,18 +195,32 @@ const ProbabilityValue = styled.span`
   text-align: right;
 `;
 
+const AdviceContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 5rem;
+  width: 100%;
+`;
+
 const PracticalAdviceBox = styled.div`
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   border: 1px solid #334155;
   border-radius: 8px;
   padding: 1rem;
-  margin-top: 5rem;
   position: relative;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  flex: 1;
+`;
+
+const PatternsBox = styled.div`
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  flex: 1;
 `;
 
 const AdviceTitle = styled.h3`
@@ -231,7 +245,29 @@ const AdviceContent = styled.div`
   white-space: pre-line;
 `;
 
-const CyberpunkTimeline = ({ predictions, practicalAdvice }) => {
+const PatternsTitle = styled.h3`
+  margin: 0 0 0.8rem 0;
+  font-size: 1.2rem;
+  color: #e2e8f0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const PatternsIcon = styled.span`
+  color: #3b82f6;
+  font-size: 1.2rem;
+`;
+
+const PatternsContent = styled.div`
+  color: #94a3b8;
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: pre-line;
+`;
+
+const CyberpunkTimeline = ({ predictions, practicalAdvice, patterns }) => {
   const [expandedFactors, setExpandedFactors] = useState({});
 
   const toggleExpandFactors = (index) => {
@@ -283,14 +319,27 @@ const CyberpunkTimeline = ({ predictions, practicalAdvice }) => {
           })}
         </TimelineWrapper>
       </TimelineContainer>
-      {practicalAdvice && (
-        <PracticalAdviceBox>
-          <AdviceTitle>
-            <AdviceIcon>💡</AdviceIcon>
-            生活建议
-          </AdviceTitle>
-          <AdviceContent>{practicalAdvice}</AdviceContent>
-        </PracticalAdviceBox>
+      {(practicalAdvice || patterns) && (
+        <AdviceContainer>
+          {patterns && (
+            <PatternsBox>
+              <PatternsTitle>
+                <PatternsIcon>🔍</PatternsIcon>
+                遵循规律
+              </PatternsTitle>
+              <PatternsContent>{patterns}</PatternsContent>
+            </PatternsBox>
+          )}
+          {practicalAdvice && (
+            <PracticalAdviceBox>
+              <AdviceTitle>
+                <AdviceIcon>💡</AdviceIcon>
+                生活建议
+              </AdviceTitle>
+              <AdviceContent>{practicalAdvice}</AdviceContent>
+            </PracticalAdviceBox>
+          )}
+        </AdviceContainer>
       )}
     </>
   );

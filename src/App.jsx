@@ -145,7 +145,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState('input'); // 'input' or 'analysis'
   const [searchQuery, setSearchQuery] = useState('');
-  const [useMockData, setUseMockData] = useState(false); // true: use mock data, false: use real backend
 
   const fetchData = async (query) => {
     setIsLoading(true);
@@ -184,10 +183,6 @@ function App() {
         // 模拟5秒延时
         await new Promise(resolve => setTimeout(resolve, 5000));
         setData(aiData);
-      } else if (useMockData) {
-        // 其他查询使用默认的模拟数据，模拟5秒延时
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        setData(mockData);
       } else {
         // 使用真实的后端API
         const response = await axios.post("http://127.0.0.1:8001/analyse", { query });
